@@ -1,0 +1,72 @@
+﻿@model Aeg.TaskManager.Entity.User
+
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/2.1.2/css/dataTables.bootstrap4.css" rel="stylesheet" />
+<div class="card my-4">
+    <div class="card-body">
+        <h2 class="text-center my-2 border-bottom pb-1">Kullanıcı Güncelleme</h2>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-12">
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text rounded-0" style="border-bottom-left-radius:5px !important; border-top-left-radius:5px !important;">
+                                <i class="fa fa-user"></i>
+                            </span>
+                            <input id="Username" name="Username" type="text" class="form-control" value="@Model.Username" />
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-12">
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text rounded-0" style="border-bottom-left-radius:5px !important; border-top-left-radius:5px !important;">
+                                <i class="fa fa-envelope"></i>
+                            </span>
+                            <input id="Email" name="Email" type="email" class="form-control" value="@Model.Email" />
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-12">
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text rounded-0" style="border-bottom-left-radius:5px !important; border-top-left-radius:5px !important;">
+                                <i class="fa fa-lock"></i>
+                            </span>
+                            <input id="Password" name="Password" type="password" class="form-control" value="@Model.Password" />
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.NameSurname, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-12">
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text rounded-0" style="border-bottom-left-radius:5px !important; border-top-left-radius:5px !important;">
+                                <i class="fa fa-id-card"></i>
+                            </span>
+                            <input id="NameSurname" name="NameSurname" type="text" class="form-control" value="@Model.NameSurname" />
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="col-md-offset-2 col-12">
+                        <div class="float-right">
+                            <a class="btn btn-warning me-3" href="/User/Index">Kullanıcı Listesi</a>
+                            <input type="submit" value="Güncelle" class="btn btn-primary " />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

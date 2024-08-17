@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/2.1.2/css/dataTables.bootstrap4.css" rel="stylesheet" />
+<main class="my-4">
+    <div class="row">
+        <!-- Card 1 -->
+        <div class="col-md-6 mb-3">
+            <div class="small-box bg-cyan">
+                <div class="inner">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-white mb-3">
+                            <strong>Aeg Company Programına Hoşgeldiniz @ViewBag.Username! 🎉</strong>
+                        </h5>
+                        <div class="flex-grow-1 mb-2">
+                            <p class="card-text">Aeg Tech Company Programı, kullanıcı ekleyebileceğiniz, bu kullanıcılara görevler atayabileceğiniz ve atanan görevleri etkin bir şekilde yönetebileceğiniz bir iş yönetim sistemidir.</p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-suitcase"></i>
+                    </div>
+                    <a href="https://github.com/EmirGecgin" class="small-box-footer">Daha fazla bilgi için <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="col-md-6 mb-3">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-black mb-3">
+                            <strong>Kullanıcı Bilgileriniz! 🎉</strong>
+                        </h5>
+                        <div id="userDetails" class="flex-grow-1 mb-2">
+                            <p class="card-text">
+                                <strong>Username:</strong> @ViewBag.Username<br />
+                                <strong>Name Surname:</strong> @ViewBag.NameSurname<br />
+                                <strong>Email:</strong> @ViewBag.Email<br />
+                            </p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <a href="/User/Index" class="small-box-footer">Kullanıcı işlemleri için <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 mb-3">
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-black ">
+                            <strong>Yapılacak İşleriniz! 🎉</strong>
+                        </h5>
+                        <div id="userDetails" class="flex-grow-1">
+                            <p class="card-text">
+                                <ol id="taskList"></ol>
+                                @*buraya kullanıcı görev bilgileri gelecek*@
+                            </p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-chart-simple"></i>
+                    </div>
+                    <a href="/UserTask/MyTasks" class="small-box-footer">İşlerinizi canban sistemde görmek için <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-white mb-3">
+                            <strong>İşler Bölümü! 🎉</strong>
+                        </h5>
+                        <div class="flex-grow-1 mb-2">
+                            <p class="card-text">Kullanıcıların işlerini görebilir, iş yada işler atayabilir ve bunları güncelleyip silebilirsiniz.</p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-list-check"></i>
+                    </div>
+                    <a href="/UserTask/Index" class="small-box-footer">İş işlemleri için <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<style>
+    ul {
+        list-style-type: disc;
+    }
+
+    .small-box {
+        position: relative; /* Ensure the footer can be positioned absolutely */
+        overflow: hidden; /* Hide anything overflowing */
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+        .small-box .inner {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+    .small-box-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #4646467f; /* Initial background color */
+        color: #ffffffa6; /* Text color */
+        text-align: center;
+        padding: 10px;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for separation */
+        transition: background-color 0.3s; /* Smooth transition effect */
+    }
+
+        .small-box-footer:hover {
+            background-color: #464646bf;
+            color: #ffffffff !important; /* Background color on hover */
+        }
+
+    .icon {
+        font-size: 2rem; /* Adjust size as needed */
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/UserTask/GetUserTasks',  // GetUserTasks metoduna AJAX isteği gönder
+            type: 'GET',
+            success: function (data) {
+                var tasksHtml = '';
+
+                // Görev isimlerini ve açıklamalarını listeye ekleme
+                $.each(data, function (index, task) {
+                    tasksHtml += '<li>' + task.TaskName +
+                        '<ul><li>' + task.Description + '</li></ul>' +
+                        '</li>';
+                });
+
+                // Görevleri listeyi HTML'e ekleme
+                $('#taskList').html(tasksHtml);
+            },
+            error: function () {
+                alert('Görevler yüklenirken bir hata oluştu.');
+            }
+        });
+    });
+</script>

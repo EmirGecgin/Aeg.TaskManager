@@ -1,0 +1,148 @@
+﻿@model IEnumerable<Aeg.TaskManager.Entity.UserTask>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/2.1.2/css/dataTables.bootstrap4.css" rel="stylesheet" />
+<div>
+    <div class="card my-4">
+        <div class="card-body table-responsive">
+            <div class="px-5 mb-3 ">
+                <h2 class="text-center my-2 pb-1 font-weight-normal border-bottom">İşler Listesi</h2>
+                <a class="btn btn-sm btn-primary float-right" href="/UserTask/Create">Ekle</a>
+                <table id="example" class="table table-striped table-hover table-bordered my-2" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                @Html.DisplayNameFor(model => model.TaskName)
+                            </th>
+                            <th class="text-center">
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th class="text-center">
+                                @Html.DisplayNameFor(model => model.StartDate)
+                            </th>
+                            <th class="text-center">
+                                @Html.DisplayNameFor(model => model.EndDate)
+                            </th>
+                            <th class="text-center">
+                                @Html.DisplayNameFor(model => model.UserTaskStatus)
+                            </th>
+                            <th class="text-center">
+                                @Html.DisplayNameFor(model => model.User.NameSurname)
+                            </th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="text-center" data-user-id="@item.UserId">
+                                <td>
+                                    @item.TaskName
+                                </td>
+                                <td>
+                                    @item.Description
+                                </td>
+                                <td>
+                                    @item.StartDate
+                                </td>
+                                <td>
+                                    @item.EndDate
+                                </td>
+                                <td>
+                                    @item.UserTaskStatus
+                                </td>
+                                <td>
+                                    @*<span class="user-name">Loading...</span>*@ @*AJAX İLE YAPTIM*@
+                                    @(ViewBag.UserNames[item.Id]) @*VİEWBAG İLE YAPTIM*@
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-success " href="/UserTask/Update/@item.Id"><i class="fa-solid fa-edit"></i></a>
+                                    <a class="btn btn-danger btn-sm" href="/UserTask/Delete/@item.Id"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.7.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        loadUsers();
+    });
+
+    function loadUsers() {
+        $("tr[data-user-id]").each(function () {
+            var userId = $(this).data("user-id");
+            var row = $(this);
+            $.ajax({
+                type: "GET",
+                url: "/UserTask/GetUserById",
+                data: { id: userId },
+                success: function (data) {
+                    row.find(".user-name").text(data.NameSurname);
+                },
+                error: function () {
+                    row.find(".user-name").text("null");
+                }
+            });
+        });
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/2.1.2/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.2/js/dataTables.bootstrap4.js"></script>
+<script>
+    new DataTable('#example');
+</script>
+
+
+@*<link href="~/Content/css/UserTask.css" rel="stylesheet" />
+    <div>
+        <h2 class="text-center my-4 pb-1 border-bottom">Kullanıcı Listesi</h2>
+        <div class="tasks-in-btn d-flex justify-content-end">
+            <input style="width:200px;" type="text" id="taskInput" class="task-input " placeholder="Enter a task..." oninput="capitalizeInput(this)">
+            &nbsp;
+            &nbsp;
+            <button style="height:40px !important;" class="add-task-btn btn btn-primary btn-xs ms-3" onclick="insertUserTask();">
+                Add Task
+            </button>
+        </div>
+        <div class="board">
+            <div class="row" style="width: 100%;">
+                <div class="col-md-4">
+                    <div class="column" id="todo" ondrop="drop(event, 'todo')" ondragover="allowDrop(event)">
+                        <h2>Todo</h2>
+                        <hr>
+                        <div class="task-container"></div>
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="column" id="in-progress" ondrop="drop(event, 'in-progress')" ondragover="allowDrop(event)">
+                        <h2>In Progress</h2>
+                        <hr>
+                        <div class="task-container"></div>
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="column" id="done" ondrop="drop(event, 'done')" ondragover="allowDrop(event)">
+                        <h2>Done</h2>
+                        <hr>
+                        <div class="task-container"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.7.0.min.js"></script>
+    <script src="~/Content/js/UserTask.js"></script>*@

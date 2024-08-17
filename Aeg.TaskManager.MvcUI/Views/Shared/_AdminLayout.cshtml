@@ -1,0 +1,104 @@
+﻿@{
+    Layout = null;
+    string currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    string currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Aeg Task Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <nav style="background: #343a40 " class="main-header navbar navbar-expand  navbar-light">
+            <div class="container-fluid d-flex justify-content-between">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a id="logout"  href="@Url.Action("Logout", "Secure")" class="nav-link  btn text-white bg-primary">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <a href="index3.html" class="brand-link">
+                <img src="~/Content/Images/AegLogoAdminPanel.png" alt="AegTech Co. Logo" class="brand-image img-circle elevation-3"
+                     style="opacity: .8">
+                <span class="brand-text font-weight-light">AEG TECH CO.</span>
+            </a>
+            <div class="sidebar">
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center" style="padding-left: 13px;">
+                    <div class="info ">
+                        <a href="/Home/Index" class="d-block">
+                            <i class="fas fa-user-circle fa-lg" style="margin-right: 8px; "></i> @if (Session["Username"] != null)
+                            {
+                                @Session["Username"].ToString()
+                            }
+                        </a>
+                    </div>
+                </div>
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item has-treeview @((currentController == "User" && currentAction == "Index") ? "menu-open" : "")">
+                            <a href="/User/Index" class="nav-link @((currentController == "User" && currentAction == "Index") ? "active" : "")">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    Kullanıcılar
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item @((currentController == "UserTask" && currentAction == "Index") ? "menu-open" : "")">
+                            <a href="/UserTask/Index" class="nav-link @((currentController == "UserTask" && currentAction == "Index") ? "active" : "")">
+                                <i class="nav-icon fas fa-briefcase"></i>
+                                <p>
+                                    İşler
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item @((currentController == "UserTask" && currentAction == "MyTasks") ? "menu-open" : "")">
+                            <a href="/UserTask/MyTasks" class="nav-link @((currentController == "UserTask" && currentAction == "MyTasks") ? "active" : "")">
+                                <i class="nav-icon fas fa-list-ul"></i>
+                                <p>
+                                    İşlerim
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <div style="background:#f2f2f2 !important " class="content-wrapper ">
+            <div class="container py-4">
+                @RenderBody()
+            </div>
+        </div>
+        <aside class="control-sidebar control-sidebar-dark">
+        </aside>
+        <footer class="main-footer text-center text-white " style="background: #343a40;">
+            <strong >Copyright &copy; 2024 <a href="https://github.com/EmirGecgin">AEG TECH CO</a>.</strong>
+            All rights reserved.
+        </footer>
+    </div>
+    <script src="~/AdminLTE-3.0.4/plugins/jquery/jquery.min.js"></script>
+    <script src="~/AdminLTE-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/AdminLTE-3.0.4/dist/js/adminlte.js"></script>
+    <script src="~/AdminLTE-3.0.4/plugins/chart.js/Chart.min.js"></script>
+    <script src="~/AdminLTE-3.0.4/dist/js/demo.js"></script>
+    <script src="~/AdminLTE-3.0.4/dist/js/pages/dashboard3.js"></script>
+    <script>
+    </script>
+</body>
+</html>
